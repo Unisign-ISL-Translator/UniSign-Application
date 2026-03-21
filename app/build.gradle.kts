@@ -13,11 +13,17 @@ android {
         buildFeatures {
             compose = true
         }
+
+        packaging {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
     }
 
     defaultConfig {
-        applicationId = "com.UniSign.unisign"
-        minSdk = 24
+        applicationId = "com.unisign.unisign"
+        minSdk = 25
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -27,6 +33,11 @@ android {
             cmake {
                 cppFlags += "-std=c++17"
             }
+        }
+
+        ndk {
+            // This ensures both old and modern phone architectures are included
+            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a"))
         }
     }
 
@@ -52,6 +63,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    sourceSets {
+        getByName("main") {
+            // We use the Avatar folder name since that's what your logs show
+            // This points to the compiled C++ binaries inside the Avatar module
+            jniLibs.srcDirs("../Avatar/src/main/jniLibs", "../Avatar/libs")
+        }
+    }
 }
 
 dependencies {
@@ -74,4 +93,6 @@ dependencies {
 
     // This specific line fixes the Unresolved reference for your specific icons
     implementation("androidx.compose.material:material-icons-extended")
+
+    implementation(project(":Avatar"))
 }

@@ -1,0 +1,93 @@
+﻿#include "pch-c.h"
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+extern void SignData__ctor_mB2F45486A7DBAB2BA376264778D66236955C4B8B (void);
+extern void FrameData__ctor_mED09F50D653047ABCB61DE0FC2DC7DF8BF284461 (void);
+extern void Landmark__ctor_m78E0A70F99B79F32E5D5EFE2660EDE295392756F (void);
+extern void AvatarController_Start_m9FBAF9CED8B124C94EB4AD6716CAAA703C55CDA4 (void);
+extern void AvatarController_LoadSignData_mE86E068A4778DA0D0E4D9E7DAAC55BE880253100 (void);
+extern void AvatarController_PlaySignRoutine_m119D9CBC866195B2A9C419462AB83A1301F9CFEE (void);
+extern void AvatarController_UpdateFingerRotations_mE069C54BBECD6A6C3DD1C835143F7CDBE38BC409 (void);
+extern void AvatarController_ConvertToUnitySpace_m514866A29952057A978A0833E610E20FAA3B1B3E (void);
+extern void AvatarController__ctor_m68C14ECE7F9855E5C399DF6E2EAFE191385A24E0 (void);
+extern void U3CPlaySignRoutineU3Ed__16__ctor_mC9B9EB786BE025CE68EBFE510FAA72DDF1082EAA (void);
+extern void U3CPlaySignRoutineU3Ed__16_System_IDisposable_Dispose_m88D23099D91F30DE10D410AED887E21F9FAD663B (void);
+extern void U3CPlaySignRoutineU3Ed__16_MoveNext_m29D0523DE46E167A93064AC53B64CC1C2A572885 (void);
+extern void U3CPlaySignRoutineU3Ed__16_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mCFBE17F21B6A75432C49705006DAEB6BF36A0E88 (void);
+extern void U3CPlaySignRoutineU3Ed__16_System_Collections_IEnumerator_Reset_m58642FEEFFD77556D3180D49299584828EAB0404 (void);
+extern void U3CPlaySignRoutineU3Ed__16_System_Collections_IEnumerator_get_Current_m5B893390DE4C48C53494326B56033AC9B2BD5687 (void);
+extern void Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6 (void);
+extern void Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B (void);
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033 (void);
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1 (void);
+static Il2CppMethodPointer s_methodPointers[19] = 
+{
+	SignData__ctor_mB2F45486A7DBAB2BA376264778D66236955C4B8B,
+	FrameData__ctor_mED09F50D653047ABCB61DE0FC2DC7DF8BF284461,
+	Landmark__ctor_m78E0A70F99B79F32E5D5EFE2660EDE295392756F,
+	AvatarController_Start_m9FBAF9CED8B124C94EB4AD6716CAAA703C55CDA4,
+	AvatarController_LoadSignData_mE86E068A4778DA0D0E4D9E7DAAC55BE880253100,
+	AvatarController_PlaySignRoutine_m119D9CBC866195B2A9C419462AB83A1301F9CFEE,
+	AvatarController_UpdateFingerRotations_mE069C54BBECD6A6C3DD1C835143F7CDBE38BC409,
+	AvatarController_ConvertToUnitySpace_m514866A29952057A978A0833E610E20FAA3B1B3E,
+	AvatarController__ctor_m68C14ECE7F9855E5C399DF6E2EAFE191385A24E0,
+	U3CPlaySignRoutineU3Ed__16__ctor_mC9B9EB786BE025CE68EBFE510FAA72DDF1082EAA,
+	U3CPlaySignRoutineU3Ed__16_System_IDisposable_Dispose_m88D23099D91F30DE10D410AED887E21F9FAD663B,
+	U3CPlaySignRoutineU3Ed__16_MoveNext_m29D0523DE46E167A93064AC53B64CC1C2A572885,
+	U3CPlaySignRoutineU3Ed__16_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mCFBE17F21B6A75432C49705006DAEB6BF36A0E88,
+	U3CPlaySignRoutineU3Ed__16_System_Collections_IEnumerator_Reset_m58642FEEFFD77556D3180D49299584828EAB0404,
+	U3CPlaySignRoutineU3Ed__16_System_Collections_IEnumerator_get_Current_m5B893390DE4C48C53494326B56033AC9B2BD5687,
+	Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6,
+	Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B,
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033,
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1,
+};
+static const int32_t s_InvokerIndices[19] = 
+{
+	14081,
+	14081,
+	14081,
+	14081,
+	14081,
+	13872,
+	405,
+	9399,
+	14081,
+	10567,
+	14081,
+	13686,
+	13872,
+	14081,
+	13872,
+	14081,
+	14081,
+	24726,
+	14081,
+};
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
+const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
+{
+	"Assembly-CSharp.dll",
+	19,
+	s_methodPointers,
+	0,
+	NULL,
+	s_InvokerIndices,
+	0,
+	NULL,
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};

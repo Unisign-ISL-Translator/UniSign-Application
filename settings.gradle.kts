@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "UniSign"
 include(":app")
- 
+include(":Avatar")
