@@ -5,9 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -53,7 +53,7 @@ fun TextToSignScreen(navController: NavHostController) {
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = primaryDark
                 )
@@ -135,7 +135,7 @@ fun TextToSignScreen(navController: NavHostController) {
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = primaryDark),
                 border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD1D5DB))
             ) {
-                Icon(Icons.Default.VolumeUp, contentDescription = "Listen")
+                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Listen")
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Listen", fontWeight = FontWeight.Bold)
             }

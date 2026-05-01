@@ -6,6 +6,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,13 +15,39 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.unisign.unisign.data.auth.AuthManager
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
+    val currentUser by AuthManager.currentUser.collectAsState()
+    // copy to a local non-delegated val so Kotlin can smart-cast safely
+    val user = currentUser
+    val isGuest = user == null || user.isAnonymous == true
+    val displayName = if (isGuest) "Guest" else (user.email ?: "User")
+
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = displayName,
+                fontSize = 14.sp,
+                color = Color(0xFF6B7280)
+            )
+
+            // show sign out only for non-guest signed-in users
+            if (!isGuest) {
+                TextButton(onClick = { AuthManager.signOut() }) {
+                    Text("Sign out")
+                }
+            }
+        }
+
         Text(
             text = "UniSign",
             fontSize = 32.sp,
