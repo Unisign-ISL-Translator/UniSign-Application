@@ -5,10 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
-import com.unisign.unisign.logic.SignToTextLogic
+import com.unisign.unisign.logic.FavoritesLogic
 
 @Composable
 fun SignToTextScreen(navController: NavHostController) {
@@ -59,7 +59,7 @@ fun SignToTextScreen(navController: NavHostController) {
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = primaryDark
                 )
@@ -113,6 +113,9 @@ fun SignToTextScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // The translation text that can be saved as a favorite
+        val translationText = "שלום, מה שלומך?"
+
         // --- Translation Text Card ---
         Card(
             modifier = Modifier
@@ -127,7 +130,7 @@ fun SignToTextScreen(navController: NavHostController) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "\"שלום, מה שלומך?\"",
+                    text = translationText,
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = primaryDark
@@ -151,13 +154,17 @@ fun SignToTextScreen(navController: NavHostController) {
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = primaryDark),
                 border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD1D5DB))
             ) {
-                Icon(Icons.Default.VolumeUp, contentDescription = "Listen")
+                Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "Listen")
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Listen", fontWeight = FontWeight.Bold)
             }
 
             OutlinedButton(
-                onClick = { /* TODO: Save logic */ },
+                onClick = {
+                    // Save the displayed translation to favorites
+                    FavoritesLogic.addFavorite(context, translationText)
+                    Toast.makeText(context, "Saved to Favorites", Toast.LENGTH_SHORT).show()
+                },
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp),
