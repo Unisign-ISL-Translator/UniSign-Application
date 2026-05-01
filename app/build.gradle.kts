@@ -81,4 +81,10 @@ dependencies {
 
     // This specific line fixes the Unresolved reference for your specific icons
     implementation("androidx.compose.material:material-icons-extended")
+
+    // CameraX for live camera preview
+    implementation("androidx.camera:camera-core:1.3.0")
+    implementation("androidx.camera:camera-camera2:1.3.0")
+    implementation("androidx.camera:camera-lifecycle:1.3.0")
+    implementation("androidx.camera:camera-view:1.3.0")
 }

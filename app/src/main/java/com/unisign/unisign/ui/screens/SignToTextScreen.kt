@@ -7,18 +7,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +21,7 @@ import androidx.navigation.NavHostController
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import com.unisign.unisign.logic.FavoritesLogic
+import com.unisign.unisign.ui.components.LiveCameraView
 
 @Composable
 fun SignToTextScreen(navController: NavHostController) {
@@ -75,40 +71,15 @@ fun SignToTextScreen(navController: NavHostController) {
             )
         }
 
-        // --- Camera View Placeholder ---
+        // --- Live Camera View ---
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f) // This forces the box to expand and take up all available middle space
-                .background(Color(0xFFE6E8ED), RoundedCornerShape(24.dp))
-                // Custom drawing for the dashed border
-                .drawBehind {
-                    drawRoundRect(
-                        color = Color.LightGray,
-                        style = Stroke(
-                            width = 3.dp.toPx(),
-                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(15f, 15f), 0f)
-                        ),
-                        cornerRadius = CornerRadius(24.dp.toPx())
-                    )
-                },
-            contentAlignment = Alignment.Center
+                .clip(RoundedCornerShape(24.dp))
+                .background(Color.Black)
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Icon(
-                    imageVector = Icons.Default.Videocam,
-                    contentDescription = null,
-                    modifier = Modifier.size(72.dp),
-                    tint = placeholderGray
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Camera View",
-                    color = placeholderGray,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            }
+            LiveCameraView(modifier = Modifier.fillMaxSize())
         }
 
         Spacer(modifier = Modifier.height(24.dp))
