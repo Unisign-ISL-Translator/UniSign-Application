@@ -10,6 +10,11 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,11 +26,32 @@ import androidx.navigation.NavHostController
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import com.unisign.unisign.logic.FavoritesLogic
+import com.unisign.unisign.logic.SignDetectionPipeline
 import com.unisign.unisign.ui.components.LiveCameraView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun SignToTextScreen(navController: NavHostController) {
     val context = LocalContext.current
+
+    val pipeline = remember { SignDetectionPipeline(context) }
+
+    // Initialize the heavy pipeline off the main thread and ensure resources are released when
+    // the screen is disposed.
+    DisposableEffect(Unit) {
+        onDispose {
+            pipeline.release()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            pipeline.initialize()
+        }
+    }
+
+    val predictionState by pipeline.predictionState.collectAsState()
 
     // Colors based on your screenshot
     val backgroundColor = Color(0xFFF5F6F8) // Very light gray background
@@ -79,13 +105,25 @@ fun SignToTextScreen(navController: NavHostController) {
                 .clip(RoundedCornerShape(24.dp))
                 .background(Color.Black)
         ) {
-            LiveCameraView(modifier = Modifier.fillMaxSize())
+            LiveCameraView(modifier = Modifier.fillMaxSize(), pipeline = pipeline)
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // The translation text that can be saved as a favorite
-        val translationText = "שלום, מה שלומך?"
+        // The translation text from live prediction
+        val translationText = when (val state = predictionState) {
+            is SignDetectionPipeline.PredictionState.Result -> {
+                val top = state.predictions.first()
+                "${top.hebrew} (${top.gloss}) ${(top.confidence * 100).toInt()}%"
+            }
+            is SignDetectionPipeline.PredictionState.Detecting -> "מזהה..."
+            else -> "ממתין..."
+        }
+
+        val saveText = when (val state = predictionState) {
+            is SignDetectionPipeline.PredictionState.Result -> state.predictions.first().hebrew
+            else -> ""
+        }
 
         // --- Translation Text Card ---
         Card(
@@ -133,8 +171,10 @@ fun SignToTextScreen(navController: NavHostController) {
             OutlinedButton(
                 onClick = {
                     // Save the displayed translation to favorites
-                    FavoritesLogic.addFavorite(context, translationText)
-                    Toast.makeText(context, "Saved to Favorites", Toast.LENGTH_SHORT).show()
+                    if (saveText.isNotEmpty()) {
+                        FavoritesLogic.addFavorite(context, saveText)
+                        Toast.makeText(context, "Saved to Favorites", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 modifier = Modifier
                     .weight(1f)

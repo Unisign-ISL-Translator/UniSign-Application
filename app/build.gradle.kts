@@ -1,25 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.compose.compiler)
-    id("com.google.gms.google-services")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.googleServices)
 }
 
 android {
     namespace = "com.unisign.unisign"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-
-        buildFeatures {
-            compose = true
-        }
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.unisign.unisign"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -28,6 +21,9 @@ android {
             cmake {
                 cppFlags += "-std=c++17"
             }
+        }
+        ndk {
+            abiFilters.addAll(listOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64"))
         }
     }
 
@@ -44,6 +40,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
@@ -51,8 +50,14 @@ android {
         }
     }
     buildFeatures {
+        compose = true
         viewBinding = true
     }
+}
+
+// Fix for ambiguous 'compileJava' task when building with certain tools
+tasks.register("compileJava") {
+    dependsOn("compileDebugJavaWithJavac")
 }
 
 dependencies {
@@ -87,4 +92,10 @@ dependencies {
     implementation("androidx.camera:camera-camera2:1.3.0")
     implementation("androidx.camera:camera-lifecycle:1.3.0")
     implementation("androidx.camera:camera-view:1.3.0")
+
+    // MediaPipe Tasks Vision (Pose, Hands, Face landmarks)
+    implementation("com.google.mediapipe:tasks-vision:0.10.29")
+
+    // ExecuTorch Android (model inference)
+    implementation("org.pytorch:executorch-android:1.2.0")
 }

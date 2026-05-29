@@ -1,6 +1,10 @@
 package com.unisign.unisign.logic
 
 object SignToTextLogic {
-    // This is the dummy function we will connect to C++
+    init {
+        System.loadLibrary("unisign")
+    }
+
+    // Legacy C++ function - kept for compatibility
     external fun processCameraFrame(): String
 }
