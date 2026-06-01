@@ -192,6 +192,14 @@ fun LiveCameraView(
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val w = size.width
                 val h = size.height
+                val isFrontCamera = cameraSelector.value == CameraSelector.DEFAULT_FRONT_CAMERA
+
+                // Helper function to convert normalized coordinates to screen coordinates
+                fun getNormalizedOffset(normX: Float, normY: Float, w: Float, h: Float): Offset {
+                    val x = if (isFrontCamera) (1f - normX) * w else normX * w
+                    val y = normY * h
+                    return Offset(x, y)
+                }
 
                 // Draw raw MediaPipe landmarks projected to view size
                 if (drawMode.value == 1) {
@@ -200,7 +208,9 @@ fun LiveCameraView(
                         // helper to draw points from a flat array of normalized coords (x,y)
                         fun drawArray(arr: FloatArray?, color: androidx.compose.ui.graphics.Color, connections: List<Pair<Int, Int>>? = null, offsetIndex: Int = 0) {
                             arr?.let { a ->
-                                                val pts = List(a.size / 2) { i -> Offset(a[i * 2] * w, a[i * 2 + 1] * h) }
+                                                val pts = List(a.size / 2) { i -> 
+                                    getNormalizedOffset(a[i * 2], a[i * 2 + 1], w, h)
+                                }
                                 // lines
                                 connections?.forEach { (i, j) ->
                                     if (i in pts.indices && j in pts.indices) {
@@ -235,7 +245,9 @@ fun LiveCameraView(
                         data.face?.let { faceArr ->
                                     val faceIndices = listOf(0, 1, 4, 10, 33, 61, 133, 152, 263, 291, 362, 13, 14)
                                     val pts = faceIndices.mapNotNull { idx ->
-                                        if (idx * 2 + 1 < faceArr.size) Offset(faceArr[idx * 2] * w, faceArr[idx * 2 + 1] * h) else null
+                                        if (idx * 2 + 1 < faceArr.size) {
+                                            getNormalizedOffset(faceArr[idx * 2], faceArr[idx * 2 + 1], w, h)
+                                        } else null
                                     }
                             for (i in 0 until pts.size - 1) drawLine(color = Color.Yellow, start = pts[i], end = pts[i + 1], strokeWidth = 2f)
                             pts.forEach { p -> drawCircle(color = Color.Yellow, radius = 3f, center = p) }
@@ -243,10 +255,11 @@ fun LiveCameraView(
 
                         // draw selected pose points
                         data.pose?.let { pArr ->
-                            val poseIndices = intArrayOf(11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
                             val poseIndicesList = listOf(11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
                             val pts = poseIndicesList.mapNotNull { idx ->
-                                if (idx * 2 + 1 < pArr.size) Offset(pArr[idx * 2] * w, pArr[idx * 2 + 1] * h) else null
+                                if (idx * 2 + 1 < pArr.size) {
+                                    getNormalizedOffset(pArr[idx * 2], pArr[idx * 2 + 1], w, h)
+                                } else null
                             }
                             for (i in 0 until pts.size - 1) drawLine(color = Color.Green, start = pts[i], end = pts[i + 1], strokeWidth = 3f)
                             pts.forEach { p -> drawCircle(color = Color.Green, radius = 5f, center = p) }
@@ -262,7 +275,7 @@ fun LiveCameraView(
                         val cx = w / 2f
                         val cy = h / 2f
                         val scale = minOf(w, h) / 3f
-                        val pts = List(arr.size / 2) { i -> Offset(cx + arr[i * 2] * scale, cy + arr[i * 2 + 1] * scale) }
+                        val pts = List(arr.size / 2) { i -> Offset(cx + arr[i * 2] * scale, cy - arr[i * 2 + 1] * scale) }
 
                         // draw a few logical connections: hands/fingers similar to above
                         fun drawHandBase(startIndex: Int, color: androidx.compose.ui.graphics.Color) {
