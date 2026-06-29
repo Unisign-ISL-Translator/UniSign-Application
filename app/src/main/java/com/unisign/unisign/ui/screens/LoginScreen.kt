@@ -127,7 +127,7 @@ fun LoginScreen(navController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Sign in with Firebase or continue as a guest",
+            text = "Sign in to your account or continue as a guest",
             style = MaterialTheme.typography.bodyMedium
         )
 
